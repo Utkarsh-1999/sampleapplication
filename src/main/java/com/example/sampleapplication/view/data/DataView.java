@@ -1,8 +1,9 @@
 package com.example.sampleapplication.view.data;
 
 
+import java.io.Serializable;
 
-public class DataView {
+public class DataView implements Serializable {
     public String getValue() {
         return value;
     }
