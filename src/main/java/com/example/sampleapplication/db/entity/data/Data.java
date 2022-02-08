@@ -1,6 +1,7 @@
 package com.example.sampleapplication.db.entity.data;
 
 
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
