@@ -22,7 +22,7 @@ public class RequestTrackingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,ServletException {
 
-        kafkaTemplate.send("ip_listing", request.getRemoteAddr());
+//        kafkaTemplate.send("ip_listing", request.getRemoteAddr());
 
 
         logger.info("Request received from : "+request.getRemoteAddr()+" : "+request.getRemotePort());
