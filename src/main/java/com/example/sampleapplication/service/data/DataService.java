@@ -19,6 +19,7 @@ public class DataService {
     @Autowired
     DataRepository repo;
 
+
     @Cacheable(value="data",key="#id")
     public DataView retrieveData(Integer id) throws IllegalArgumentException,DataNotFoundException{
 

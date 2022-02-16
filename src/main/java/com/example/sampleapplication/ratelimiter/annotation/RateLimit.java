@@ -1,11 +1,22 @@
-package com.example.sampleapplication.annotation.timetracker;
+package com.example.sampleapplication.ratelimiter.annotation;
+
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TimeTracker {
+public @interface RateLimit {
+
+
+    String expression() default "";
+
+
+
+
+
+
 }

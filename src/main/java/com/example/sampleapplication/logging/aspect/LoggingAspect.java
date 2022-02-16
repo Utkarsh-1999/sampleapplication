@@ -1,4 +1,4 @@
-package com.example.sampleapplication.aspect.logging;
+package com.example.sampleapplication.logging.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;

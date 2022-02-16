@@ -1,4 +1,4 @@
-package com.example.sampleapplication.aspect.timetracker;
+package com.example.sampleapplication.timetracker.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,7 +14,7 @@ public class TimeTrackerAspect {
 
     Logger logger= LoggerFactory.getLogger(TimeTrackerAspect.class);
 
-    @Around("@annotation(com.example.sampleapplication.annotation.timetracker.TimeTracker)")
+    @Around("@annotation(com.example.sampleapplication.timetracker.annotation.TimeTracker)")
     public Object tracker(ProceedingJoinPoint joinPoint) throws Throwable{
         long starttime=System.currentTimeMillis();
         Object result=joinPoint.proceed();
