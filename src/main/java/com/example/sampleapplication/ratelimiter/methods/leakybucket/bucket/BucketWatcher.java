@@ -1,12 +1,9 @@
 package com.example.sampleapplication.ratelimiter.methods.leakybucket.bucket;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.time.Duration;
 import java.time.LocalTime;
 
-public class BucketWatcher {
+public class BucketWatcher extends Thread {
 
 
     BucketRepo repo;
@@ -21,20 +18,22 @@ public class BucketWatcher {
         this.repo=repo;
     }
 
-    public String pullRequest() throws InterruptedException {
+    public String getRequestId() {
 
 
 
-        while(Duration.between(repo.getBucketById(id).getQueueFrontTime(), LocalTime.now() ).toMillis() < millisecondsPerRequest);
-
+        while(Duration.between(repo.getBucketById(id).getQueueFrontEntryTime(), LocalTime.now() ).toMillis() < millisecondsPerRequest);
 
         Bucket bucket=repo.getBucketById(id);
         String requestId=bucket.getRequestQueue().poll();
-        bucket.setQueueFrontTime(LocalTime.now());
-
+        bucket.setQueueFrontEntryTime(LocalTime.now());
         repo.updateBucketById(id,bucket);
+
         return requestId;
 
-
     }
+
+
+
+
 }

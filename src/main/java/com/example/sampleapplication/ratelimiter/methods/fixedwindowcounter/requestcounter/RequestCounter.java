@@ -3,7 +3,7 @@ package com.example.sampleapplication.ratelimiter.methods.fixedwindowcounter.req
 import java.io.Serializable;
 import java.time.LocalTime;
 
-public class RequestCounterModel implements Serializable {
+public class RequestCounter implements Serializable {
 
     private long counter;
 
@@ -25,7 +25,7 @@ public class RequestCounterModel implements Serializable {
         this.timestamp = timestamp;
     }
 
-    RequestCounterModel(long counter, LocalTime timestamp){
+    RequestCounter(long counter, LocalTime timestamp){
 
         this.counter=counter;
         this.timestamp=timestamp;

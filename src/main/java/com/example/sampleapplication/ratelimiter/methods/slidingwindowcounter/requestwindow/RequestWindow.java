@@ -1,13 +1,11 @@
 package com.example.sampleapplication.ratelimiter.methods.slidingwindowcounter.requestwindow;
 
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.HashMap;
 
 
-public class RequestWindowModel implements Serializable {
+public class RequestWindow implements Serializable {
 
     private HashMap<LocalTime,Long> requestCounterMap;
 
@@ -28,7 +26,7 @@ public class RequestWindowModel implements Serializable {
 
     }
 
-    public RequestWindowModel(HashMap<LocalTime, Long> requestCounterMap) {
+    public RequestWindow(HashMap<LocalTime, Long> requestCounterMap) {
         this.requestCounterMap = requestCounterMap;
     }
 

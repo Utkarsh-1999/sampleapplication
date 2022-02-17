@@ -10,13 +10,13 @@ import java.time.LocalTime;
 public class RequestCounterRepo {
 
     @Cacheable(value = "Fixed-Window-Counter",key="#id")
-    public RequestCounterModel getCounterById(String id) {
-        return new RequestCounterModel(0, LocalTime.now());
+    public RequestCounter getRequestCounterById(String id) {
+        return new RequestCounter(0, LocalTime.now());
     }
 
     @CachePut(value="Fixed-Window-Counter",key="#id")
-    public RequestCounterModel updateCounterById(String id, long counter) {
-        return new RequestCounterModel(counter,LocalTime.now());
+    public RequestCounter updateRequestCounterById(String id, RequestCounter requestCounter) {
+        return requestCounter;
 
     }
 

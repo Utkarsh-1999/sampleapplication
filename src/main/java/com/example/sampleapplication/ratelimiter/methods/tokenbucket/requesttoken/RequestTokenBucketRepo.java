@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 import java.time.LocalTime;
 
 @Component
-public class RequestTokenRepo {
+public class RequestTokenBucketRepo {
 
     @Cacheable(value="TokenBucket",key="#id")
-    public RequestTokenModel getRequestTokenById(String id, long tokenBucketCapacity){
-        return new RequestTokenModel(tokenBucketCapacity, LocalTime.now());
+    public RequestTokenBucket getRequestTokenBucketById(String id){
+        return new RequestTokenBucket();
     }
 
     @CachePut(value="TokenBucket",key="#id")
-    public RequestTokenModel updateRequestTokenById(String id,double tokenCount){
-        return new RequestTokenModel(tokenCount,LocalTime.now());
+    public RequestTokenBucket updateRequestTokenBucketById(String id, RequestTokenBucket requestTokenBucket){
+        return requestTokenBucket;
     }
 
 }

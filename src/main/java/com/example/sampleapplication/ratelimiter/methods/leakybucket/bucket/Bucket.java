@@ -1,5 +1,7 @@
 package com.example.sampleapplication.ratelimiter.methods.leakybucket.bucket;
 
+import com.example.sampleapplication.ratelimiter.methods.leakybucket.LeakyBucket;
+
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -17,19 +19,19 @@ public class Bucket implements Serializable {
         this.requestQueue = requestQueue;
     }
 
-    private LocalTime queueFrontTime;
+    private LocalTime queueFrontEntryTime;
 
-    public LocalTime getQueueFrontTime() {
-        return queueFrontTime;
+    public LocalTime getQueueFrontEntryTime() {
+        return queueFrontEntryTime;
     }
 
-    public void setQueueFrontTime(LocalTime queueFrontTime) {
-        this.queueFrontTime = queueFrontTime;
+    public void setQueueFrontEntryTime(LocalTime queueFrontEntryTime) {
+        this.queueFrontEntryTime = queueFrontEntryTime;
     }
 
     Bucket(){
         requestQueue=new LinkedList<>();
-        queueFrontTime=null;
+        queueFrontEntryTime =null;
 
     }
 }
