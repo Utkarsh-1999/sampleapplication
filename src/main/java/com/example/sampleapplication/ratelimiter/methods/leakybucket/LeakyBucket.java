@@ -14,7 +14,7 @@ import java.util.Objects;
 
 
 @Component
-public class LeakyBucket {
+public class LeakyBucket{
 
     @Autowired
     BucketRepo repo;
@@ -29,12 +29,7 @@ public class LeakyBucket {
     public void limitRequest(String id, long millisecondsPerRequest, long leakyBucketCapacity) throws InterruptedException {
 
 
-
         Bucket bucket=repo.getBucketById(id);
-
-        if(bucket.getRequestQueue().size()>=leakyBucketCapacity){
-            throw new RateLimitExceededException();
-        }
 
         BucketWatcher watcher;
 
@@ -42,25 +37,23 @@ public class LeakyBucket {
             watcher=new BucketWatcher(id,millisecondsPerRequest,repo);
             bucketWatcherHashMap.put(id,watcher);
         }
-        else{
+        else
+        {
             watcher=bucketWatcherHashMap.get(id);
         }
 
         if(bucket.getRequestQueue().isEmpty())
-            bucket.setQueueFrontTime(LocalTime.now());
+            bucket.setQueueFrontEntryTime(LocalTime.now());
+
+        if(bucket.getRequestQueue().size()>=leakyBucketCapacity){
+            throw new RateLimitExceededException();
+        }
 
         String requestId=id+bucket.getRequestQueue().size();
-
-
-
         bucket.getRequestQueue().add(requestId);
         repo.updateBucketById(id,bucket);
 
-
-
-
-        while(!Objects.equals(watcher.pullRequest(), requestId));
-
+        while(!Objects.equals(watcher.getRequestId(), requestId));
 
 
     }
