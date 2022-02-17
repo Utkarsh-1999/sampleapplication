@@ -47,7 +47,7 @@ public class LeakyBucket {
         }
 
         if(bucket.getRequestQueue().isEmpty())
-            watcher.setLastReqTime(LocalTime.now());
+            bucket.setQueueFrontTime(LocalTime.now());
 
         String requestId=id+bucket.getRequestQueue().size();
 
@@ -55,6 +55,7 @@ public class LeakyBucket {
 
         bucket.getRequestQueue().add(requestId);
         repo.updateBucketById(id,bucket);
+
 
 
 

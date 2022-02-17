@@ -13,15 +13,7 @@ public class BucketWatcher {
 
     String id;
     long millisecondsPerRequest;
-    private LocalTime lastReqTime;
 
-    public LocalTime getLastReqTime() {
-        return lastReqTime;
-    }
-
-    public void setLastReqTime(LocalTime lastReqTime) {
-        this.lastReqTime = lastReqTime;
-    }
 
     public BucketWatcher(String id, long millisecondsPerRequest, BucketRepo repo) {
         this.id=id;
@@ -33,13 +25,12 @@ public class BucketWatcher {
 
 
 
-        while(Duration.between(lastReqTime, LocalTime.now() ).toMillis() < millisecondsPerRequest);
-
-        this.lastReqTime=LocalTime.now();
+        while(Duration.between(repo.getBucketById(id).getQueueFrontTime(), LocalTime.now() ).toMillis() < millisecondsPerRequest);
 
 
         Bucket bucket=repo.getBucketById(id);
         String requestId=bucket.getRequestQueue().poll();
+        bucket.setQueueFrontTime(LocalTime.now());
 
         repo.updateBucketById(id,bucket);
         return requestId;
