@@ -25,7 +25,7 @@ public class RequestTrackingFilter implements Filter {
 //        kafkaTemplate.send("ip_listing", request.getRemoteAddr());
 
 
-        logger.info("Request received from : "+request.getRemoteAddr()+" : "+request.getRemotePort());
+        logger.info("RequestKey received from : "+request.getRemoteAddr()+" : "+request.getRemotePort());
         filterChain.doFilter(request,response);
     }
 
