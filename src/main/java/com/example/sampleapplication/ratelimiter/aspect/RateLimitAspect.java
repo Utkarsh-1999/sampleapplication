@@ -7,10 +7,6 @@ import com.example.sampleapplication.ratelimiter.keygenerator.RateLimiterKeyGene
 import com.example.sampleapplication.ratelimiter.keygenerator.RequestKey;
 import com.example.sampleapplication.ratelimiter.mechanism.RateLimiter;
 import com.example.sampleapplication.ratelimiter.requestcontext.RequestContext;
-import com.example.sampleapplication.ratelimiter.bin.methods.fixedwindowcounter.FixedWindowCounter;
-import com.example.sampleapplication.ratelimiter.bin.methods.leakybucket.LeakyBucket;
-import com.example.sampleapplication.ratelimiter.bin.methods.slidingwindowcounter.SlidingWindowCounter;
-import com.example.sampleapplication.ratelimiter.bin.methods.tokenbucket.TokenBucket;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -35,46 +31,6 @@ public class RateLimitAspect {
 
     @Value("${rate-limiter.enable:true}")
     boolean enable;
-
-
-    @Value("${rate-limiter.method:Sliding-Window-Counter}")
-    String method;
-
-    @Value("${rate-limiter.fixedWindowResetDurationInMilliseconds:10000}")
-    long fixedWindowResetDurationInMilliseconds;
-    @Value("${rate-limiter.fixedWindowRequestThreshold:5}")
-    long fixedWindowRequestThreshold;
-
-
-    @Value("${rate-limiter.tokenRatePerSecond:0.1}")
-    double tokenRatePerSecond;
-    @Value("${rate-limiter.tokenBucketCapacity:5}")
-    long tokenBucketCapacity;
-
-
-    @Value("${rate-limiter.millisecondsPerRequest:10000}")
-    long millisecondsPerRequest;
-    @Value("${rate-limiter.leakyBucketCapacity:5}")
-    long leakyBucketCapacity;
-
-
-    @Value("${rate-limiter.windowDurationInMilliseconds:1}")
-    long windowDurationInMilliseconds;
-    @Value("${rate-limiter.slidingWindowSize:5}")
-    long slidingWindowSize;
-
-
-    @Autowired
-    SlidingWindowCounter slidingWindowCounter;
-
-    @Autowired
-    FixedWindowCounter fixedWindowCounter;
-
-    @Autowired
-    TokenBucket tokenBucket;
-
-    @Autowired
-    LeakyBucket leakyBucket;
 
 
     @Autowired
@@ -123,16 +79,7 @@ public class RateLimitAspect {
 
         if(enable){
 
-
-
             rateLimiter.tryAcceptRequest(requestKey);
-
-//            switch (method) {
-//                case "Fixed-Window-Counter" -> fixedWindowCounter.limitRequest(key,fixedWindowResetDurationInMilliseconds,fixedWindowRequestThreshold);
-//                case "Token-Bucket" -> tokenBucket.limitRequest(key,tokenRatePerSecond,tokenBucketCapacity);
-//                case "Leaky-Bucket" -> leakyBucket.limitRequest(key, millisecondsPerRequest,leakyBucketCapacity);
-//                default -> slidingWindowCounter.limitRequest(key, windowDurationInMilliseconds, slidingWindowSize);
-//            }
 
         }
 
