@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 
 
 @RestController
@@ -18,8 +17,6 @@ public class DataController {
 
     @Autowired
     DataService dataservice;
-
-
 
 
     @TimeTracker
@@ -38,7 +35,7 @@ public class DataController {
     }
 
     @TimeTracker
-    @RateLimit(keyGenerator="ipBasedKeyGenerator")
+    @RateLimit(keyGenerator="idBasedKeyGenerator")
     @PutMapping(value="/data")
     public ResponseEntity<String> putData(@RequestBody Data data){
         dataservice.updateData(data);

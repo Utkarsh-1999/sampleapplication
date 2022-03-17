@@ -19,7 +19,7 @@ public class IpBasedKeyGenerator implements RateLimiterKeyGenerator {
     @Override
     public RequestKey generateKey() {
 
-        String requestId= requestContext.getPrefix()+"-"+clientIpHandler.getClientIp((HttpServletRequest) requestContext.getSuffix());
+        String requestId= requestContext.getRequestPath()+"-"+requestContext.getIp();
         return new RequestKey(requestId);
     }
 }

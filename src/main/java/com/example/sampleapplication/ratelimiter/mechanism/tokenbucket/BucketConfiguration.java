@@ -5,10 +5,15 @@ import io.github.bucket4j.Refill;
 import io.github.bucket4j.distributed.proxy.ClientSideConfig;
 
 import io.github.bucket4j.distributed.versioning.Version;
+import io.github.bucket4j.redis.redisson.cas.RedissonBasedProxyManager;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.command.CommandExecutor;
+import org.redisson.command.CommandSyncService;
 import org.redisson.config.Config;
 import org.redisson.config.RedissonNodeConfig;
+import org.redisson.connection.ConnectionManager;
+import org.redisson.connection.SingleConnectionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,10 +37,6 @@ public class BucketConfiguration {
 
     @Bean
     public Config getConfig() throws IOException {
-//        Config config = Config.fromYAML(new File("src/main/resources/redisson.yaml"));
-//        Config config=new Config();
-//        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
-//        RedissonClient redisson = Redisson.create(config);
 
         return Config.fromYAML(new File("src/main/resources/redisson.yaml"));
 
@@ -54,6 +55,12 @@ public class BucketConfiguration {
         bandwidths.add(Bandwidth.classic(10, Refill.intervally(1, Duration.ofMinutes(1))));
         return bandwidths;
     }
+
+    @Bean
+    public Duration getRedisEntryTll(){
+        return Duration.ofMinutes(5);
+    }
+
 
 
 }

@@ -29,12 +29,12 @@ public class Bucket4jRedisImplementation implements RateLimiter {
     RemoteBucketBuilder<String> remoteBucketBuilder;
 
     @Autowired
-    Bucket4jRedisImplementation(ClientSideConfig clientSideConfig,Config config,UUID uuid,List<Bandwidth> bandwidths){
+    Bucket4jRedisImplementation(ClientSideConfig clientSideConfig,Config config,UUID uuid,List<Bandwidth> bandwidths,Duration ttl){
 
         ConnectionManager connectionManager=new SingleConnectionManager(config.useSingleServer(), config,uuid);
         CommandExecutor commandExecutor=new CommandSyncService(connectionManager);
 
-        this.redissonBasedProxyManager=new RedissonBasedProxyManager(commandExecutor,clientSideConfig, Duration.ofMinutes(1));
+        this.redissonBasedProxyManager=new RedissonBasedProxyManager(commandExecutor,clientSideConfig, ttl);
 
         bucketConfiguration=new BucketConfiguration(bandwidths);
         remoteBucketBuilder=redissonBasedProxyManager.builder();
