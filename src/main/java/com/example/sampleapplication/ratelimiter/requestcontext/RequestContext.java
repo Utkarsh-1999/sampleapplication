@@ -6,22 +6,33 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 @Component
 public class RequestContext {
-    private String prefix;
-    private Object suffix;
+    private String requestPath;
+    private String ip;
+    private String id; //email , otp ,etc...
 
-    public Object getSuffix() {
-        return suffix;
+    public String getRequestPath() {
+        return requestPath;
     }
 
-    public void setSuffix(Object suffix) {
-        this.suffix = suffix;
+    public void setRequestPath(String requestPath) {
+        this.requestPath = requestPath;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getId() {
+        return id;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setId(String id) {
+        this.id = id;
     }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+
 }

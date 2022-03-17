@@ -12,11 +12,6 @@ import java.lang.annotation.Target;
 public @interface RateLimit {
 
 
-//    String expression() default "";
-
     String keyGenerator () default "";
-
-
-
 
 }

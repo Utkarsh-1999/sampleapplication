@@ -12,6 +12,7 @@ public class Data {
     @Id
     public int id;
     public String value;
+    public String email;
 
     public int getId() {
         return id;
@@ -29,5 +30,11 @@ public class Data {
         this.value = value;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

@@ -1,8 +1,8 @@
 package com.example.sampleapplication.ratelimiter.aspect;
 
+import com.example.sampleapplication.db.entity.data.Data;
 import com.example.sampleapplication.ratelimiter.annotation.RateLimit;
-import com.example.sampleapplication.ratelimiter.keygenerator.EmailBasedKeyGenerator;
-import com.example.sampleapplication.ratelimiter.keygenerator.IpBasedKeyGenerator;
+import com.example.sampleapplication.ratelimiter.keygenerator.IdBasedKeyGenerator;
 import com.example.sampleapplication.ratelimiter.keygenerator.RateLimiterKeyGenerator;
 import com.example.sampleapplication.ratelimiter.keygenerator.RequestKey;
 import com.example.sampleapplication.ratelimiter.mechanism.RateLimiter;
@@ -20,7 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
 
 
 @Aspect
@@ -39,8 +39,6 @@ public class RateLimitAspect {
     @Autowired
     RequestContext requestContext;
 
-    @Autowired
-    HttpServletRequest httpServletRequest;
 
     @Autowired
     RateLimiter rateLimiter;
@@ -48,27 +46,32 @@ public class RateLimitAspect {
 
 
     @Before("@annotation(rateLimit)")
-    public void LimitRequests(JoinPoint joinPoint,RateLimit rateLimit) throws InterruptedException {
+    public void LimitRequests(JoinPoint joinPoint,RateLimit rateLimit) throws Exception {
+
 
 
         RateLimiterKeyGenerator rateLimiterKeyGenerator=applicationContext.getBean(rateLimit.keyGenerator(),RateLimiterKeyGenerator.class);
 
-        requestContext.setPrefix(((MethodSignature)joinPoint.getSignature()).getMethod().getName());
+        requestContext.setRequestPath(((MethodSignature)joinPoint.getSignature()).getMethod().getName());
 
 
-        if(rateLimiterKeyGenerator instanceof IpBasedKeyGenerator) {
-            requestContext.setSuffix(httpServletRequest);
-        }
-
-        if(rateLimiterKeyGenerator instanceof EmailBasedKeyGenerator){
-            Object [] paramAnnotations=((MethodSignature)joinPoint.getSignature()).getMethod().getParameterAnnotations();
+        if(rateLimiterKeyGenerator instanceof IdBasedKeyGenerator){
+            Annotation[][] paramAnnotations=((MethodSignature)joinPoint.getSignature()).getMethod().getParameterAnnotations();
             Object [] parameters=joinPoint.getArgs();
 
+            boolean isRequestBodyPresent=false;
 
             for(int i=0;i<joinPoint.getArgs().length;i++){
-                if(paramAnnotations[i] instanceof RequestBody){
-                    requestContext.setSuffix(parameters[i]);
+                if((paramAnnotations[i][0] instanceof RequestBody) && (parameters[i] instanceof  Data)){
+                    requestContext.setId(((Data)parameters[i]).getEmail());
+                    isRequestBodyPresent=true;
+                    break;
                 }
+            }
+
+            if(!isRequestBodyPresent){
+
+                throw new Exception();
             }
         }
 

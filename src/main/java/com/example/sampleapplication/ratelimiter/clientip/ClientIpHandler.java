@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 
-@Component("clientIpHandler")
+@Component
 public class ClientIpHandler {
 
     @Value("${ratelimiter.clientip.bot-threshold:0}")
