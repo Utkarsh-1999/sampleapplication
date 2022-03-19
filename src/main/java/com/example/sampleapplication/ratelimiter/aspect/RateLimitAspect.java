@@ -52,7 +52,7 @@ public class RateLimitAspect {
 
         RateLimiterKeyGenerator rateLimiterKeyGenerator=applicationContext.getBean(rateLimit.keyGenerator(),RateLimiterKeyGenerator.class);
 
-        requestContext.setRequestPath(((MethodSignature)joinPoint.getSignature()).getMethod().getName());
+        requestContext.setRequestPath(joinPoint.getTarget().getClass()+"-"+((MethodSignature)joinPoint.getSignature()).getMethod().getName());
 
 
         if(rateLimiterKeyGenerator instanceof IdBasedKeyGenerator){
@@ -63,6 +63,7 @@ public class RateLimitAspect {
 
             for(int i=0;i<joinPoint.getArgs().length;i++){
                 if((paramAnnotations[i][0] instanceof RequestBody) && (parameters[i] instanceof  Data)){
+
                     requestContext.setId(((Data)parameters[i]).getEmail());
                     isRequestBodyPresent=true;
                     break;
